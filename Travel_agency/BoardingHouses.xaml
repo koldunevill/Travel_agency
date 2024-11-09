@@ -153,8 +153,6 @@
                             <TextBlock Text="Уровень пансионата:" FontSize="25" HorizontalAlignment="Center"/>
                             <TextBlock Text="{Binding Уровень_пансионата}" FontWeight="Bold" FontSize="25" HorizontalAlignment="Center"/>
                         </StackPanel>
-                        <Button Content="Купить" Name="AddBTN" Click="AddBTN_Click" Background="Orange" />
-
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

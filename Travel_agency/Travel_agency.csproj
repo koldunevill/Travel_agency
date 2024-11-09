@@ -192,6 +192,10 @@
     <Resource Include="res\тур4.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Client\Ivan.jpg" />
+    <Resource Include="Client\Petr.jpg" />
+    <Resource Include="res\Ivan.jpg" />
+    <Resource Include="res\Petr.jpg" />
     <Content Include="Travel_agency.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Travel_agency.edmx</DependentUpon>
@@ -203,8 +207,6 @@
       <LastGenOutput>Travel_agency.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Client\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

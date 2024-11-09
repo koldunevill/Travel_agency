@@ -197,8 +197,5 @@ namespace Travel_agency
             manager.MainFrame.Navigate(new TravelPackagesPage());
         }
 
-        private void AddBTN_Click(object sender, RoutedEventArgs e)
-        {
-        }
     }
 }

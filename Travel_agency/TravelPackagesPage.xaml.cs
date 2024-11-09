@@ -61,6 +61,8 @@ namespace Travel_agency
                 (f.Пансионаты?.Название?.ToLower().Contains(SearchBox.Text.ToLower()) ?? false) ||
                 (f.Виды_жилья?.Название?.ToLower().Contains(SearchBox.Text.ToLower()) ?? false)).ToList();
 
+            int newcountRecord = current.Count;
+            RecordTB.Text = $"Количество записей {newcountRecord} из {countRecords}";
             TravePackagesListView.ItemsSource = current;
         }
 
@@ -72,8 +74,31 @@ namespace Travel_agency
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-
+            var selectItem = TravePackagesListView.SelectedItem as Путевки;
+            if (MessageBox.Show("Вы точно хотите удалить эту путевку?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    if (MessageBox.Show("Вы точно точно ХОТИТЕ удалить эту путевку?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                    {
+                        try
+                        {
+                            Travel_agencyEntities.GetContext().Путевки.Remove(selectItem);
+                            Travel_agencyEntities.GetContext().SaveChanges();
+                            MessageBox.Show("Путевка успешно удалена.", "Удаление", MessageBoxButton.OK, MessageBoxImage.Information);
+                            countRecords -= 1;
+                            UpdateTravekPackage();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Ошибка при удалении: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                }
+                catch { MessageBox.Show($"Оу", "", MessageBoxButton.OK, MessageBoxImage.Error); }
+            }
         }
+        
         private void GOTours_Click(object sender, RoutedEventArgs e)
         {
             manager.MainFrame.Navigate(new ToursPage());
@@ -101,6 +126,37 @@ namespace Travel_agency
 
         private void MedNO_Checked(object sender, RoutedEventArgs e)
         {
+            UpdateTravekPackage();
+        }
+
+        private void add_Click(object sender, RoutedEventArgs e)
+        {
+            manager.MainFrame.Navigate(new AddEditTravelPackagePage(null));
+        }
+
+        private void EditBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var clients = new List<string>
+            {
+                "-"
+            };
+            clients.AddRange(Travel_agencyEntities.GetContext().Клиенты.Select(f => f.Фамилия + " " + f.Имя + " " + f.Отчество).ToList());
+            var selectedPackage = (sender as Button).DataContext as Путевки;
+            if (selectedPackage != null)
+            {
+                manager.MainFrame.Navigate(new AddEditTravelPackagePage(selectedPackage));
+            }
+            UpdateTravekPackage();
+        }
+
+        private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Visibility == Visibility.Visible)
+            {
+                Travel_agencyEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+                TravePackagesListView.ItemsSource = Travel_agencyEntities.GetContext().Путевки.ToList();
+            }
+            countRecords = Travel_agencyEntities.GetContext().Путевки.Count();
             UpdateTravekPackage();
         }
     }
