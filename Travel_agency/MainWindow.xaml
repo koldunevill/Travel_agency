@@ -1,0 +1,23 @@
+﻿<Window x:Class="Travel_agency.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Travel_agency"
+        mc:Ignorable="d"
+        Title="TravelAgency" Height="600" Width="1000" FontFamily="Cambria" FontSize="20" Icon="res/Travel.png"
+        MinHeight="500" MinWidth="900">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Background="PaleVioletRed"/>
+        <Image Source="res/Travel.png" Grid.Row="0"  Height="50" Width="75" HorizontalAlignment="Left"/>
+        <TextBlock Text="Туристическое агентство" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <Frame Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden"></Frame>
+        
+    </Grid>
+</Window>

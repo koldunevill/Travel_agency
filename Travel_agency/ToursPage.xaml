@@ -1,0 +1,139 @@
+﻿<Page x:Class="Travel_agency.ToursPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Travel_agency"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="1000"  FontFamily="Cambria" FontSize="18"
+      Title="ToursPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+      
+        <TextBlock Background="PaleVioletRed" Grid.Row="2"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            
+            <Button Content="Пансионаты" Background="Orange" Margin="5 5 5 5" HorizontalAlignment="Left" Width="110" Height="25" BorderThickness="0"
+                Name="GoBoardingHouse" Click="GoBoardingHouse_Click"></Button>
+            <Button Content="Туры" Grid.Row="2" Background="LightCoral" Margin="5 5 5 5" HorizontalAlignment="Left" Width="110" Height="25" BorderThickness="0"></Button>
+        </StackPanel>
+        <Button Content="Путевки" Name="GOTravelPackages" Click="GOTravelPackages_Click" Grid.Row="2" HorizontalAlignment="Right" Background="Orange" 
+                FontWeight="Bold" FontSize="25" Margin="0 0 15 0"></Button>
+
+
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10 0 0 0">
+            <StackPanel Width="220">
+                <TextBlock Text="Поиск" HorizontalAlignment="Center"/>
+                <TextBox Name="SearchBox" MinWidth="100" MaxWidth="200" TextChanged="SearchBox_TextChanged" ></TextBox>
+                <TextBlock Name="RecordTB" VerticalAlignment="Bottom" FontSize="15" FontWeight="Bold" Margin="0 15 0 0 "></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="10 0 0 0">
+                <TextBlock Text="Вид жилья"></TextBlock>
+                <ComboBox Name="SelectBidHouseCB" SelectionChanged="SelectBidHouseCB_SelectionChanged" >
+                    <TextBlock>Все</TextBlock>
+                    <TextBlock>Гостиница</TextBlock>
+                    <TextBlock>Отель</TextBlock>
+                    <TextBlock>Кемпинг</TextBlock>
+                    <TextBlock>Мотель</TextBlock>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="10 0 0 0">
+                <TextBlock Text="Вид транспорта"></TextBlock>
+                <ComboBox Name="SelectTransportCB" SelectionChanged="SelectTransportCB_SelectionChanged" >
+                    <TextBlock>Все</TextBlock>
+                    <TextBlock>Автобус</TextBlock>
+                    <TextBlock>Самолет</TextBlock>
+                    <TextBlock>Круизный лайнер</TextBlock>
+                    <TextBlock>Поезд</TextBlock>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="10 0 0 0">
+                <TextBlock Text="Вид жилья"></TextBlock>
+                <ComboBox Name="SelectFoodCB" SelectionChanged="SelectFoodCB_SelectionChanged" >
+                    <TextBlock>Все</TextBlock>
+                    <TextBlock>Одноразовое</TextBlock>
+                    <TextBlock>Двухразовое</TextBlock>
+                    <TextBlock>Трехразовое</TextBlock>
+                </ComboBox>
+            </StackPanel>
+                 <StackPanel Orientation="Vertical" Margin="10 0 0 0">
+                    <TextBlock Text="Цена тура:" FontSize="15"></TextBlock>
+                    <RadioButton Name="True" Checked="True_Checked"  Content="По возрастранию" GroupName="НаличиеБассейна" FontSize="15"></RadioButton>
+                    <RadioButton Name="False" Checked="False_Checked" Content="По убыванию" GroupName="НаличиеБассейна" FontSize="15"></RadioButton>
+                <Button Content="Сбросить фильтр" Name="DeleteFiltr" Click="DeleteFiltr_Click" Background="Orange"  FontSize="15" BorderThickness="0" Width="150"></Button>
+            </StackPanel>
+        </StackPanel>
+
+
+
+
+        <ListView Name="ToursListViev" Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0 0 0 10">
+                        <Grid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Удалить" Click="DeleteTour_Click" Name="DeleteTour" />
+                           </ContextMenu>
+                          </Grid.ContextMenu>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="500"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Stretch="Uniform" Margin="0 0 10 0">
+                            <Image.Source>
+                                <Binding Path="Logo">
+                                    <Binding.TargetNullValue>
+                                        <ImageSource>
+                                            res/Def.png
+                                        </ImageSource>
+                                    </Binding.TargetNullValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+
+                        <TextBlock Text="{Binding Название}" Grid.Row="0" Grid.Column="1" FontWeight="Bold"></TextBlock>
+                        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                            <TextBlock Text="Цена за сутки: "/>
+                            <TextBlock Text="{Binding Цена_тура_в_сутки}" FontWeight="Medium"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+                            <TextBlock Text="Категория жилья: "/>
+                            <TextBlock Text="{Binding Категория_жилья_на_ночь}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
+                            <TextBlock Text="Вид питания: "/>
+                            <TextBlock Text="{Binding Вид_транспорта}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
+                            <TextBlock Text="Вид питания: "/>
+                            <TextBlock Text="{Binding Вид_питания}"/>
+                        </StackPanel>
+
+
+
+
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </Grid>
+</Page>

@@ -1,0 +1,543 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Travel_agencyModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Виды жилья">
+          <Key>
+            <PropertyRef Name="ID_Вид жилья" />
+          </Key>
+          <Property Name="ID_Вид жилья" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_Пансионата" Type="int" Nullable="false" />
+          <Property Name="Категория жилья" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Описание условий проживаний" Type="text" Nullable="false" />
+          <Property Name="Цена за номер в сутки" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Клиенты">
+          <Key>
+            <PropertyRef Name="ID_Клиента" />
+          </Key>
+          <Property Name="ID_Клиента" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Паспортные данные" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Фамилия" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Имя" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Отчество" Type="nvarchar" MaxLength="50" />
+          <Property Name="Дата рождения" Type="date" Nullable="false" />
+          <Property Name="Адрес" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Город" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Телефон" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Фото" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Пансионаты">
+          <Key>
+            <PropertyRef Name="ID_Пансионата" />
+          </Key>
+          <Property Name="ID_Пансионата" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Адрес" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Город" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Страна" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Телефон" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Описание территории" Type="text" Nullable="false" />
+          <Property Name="Количество комнат" Type="int" Nullable="false" />
+          <Property Name="Наличие бассейна" Type="bit" Nullable="false" />
+          <Property Name="Наличие мед. услуг" Type="bit" Nullable="false" />
+          <Property Name="Наличие спа-салона" Type="bit" Nullable="false" />
+          <Property Name="Уровень пансионата" Type="int" Nullable="false" />
+          <Property Name="Расстояние до моря" Type="int" />
+          <Property Name="Logo" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Путевки">
+          <Key>
+            <PropertyRef Name="ID_Путевки" />
+          </Key>
+          <Property Name="ID_Путевки" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Клиента" Type="int" Nullable="false" />
+          <Property Name="ID_Пансионата" Type="int" />
+          <Property Name="ID_Вид жилья" Type="int" />
+          <Property Name="ID_Тура" Type="int" />
+          <Property Name="Дата заезда" Type="date" Nullable="false" />
+          <Property Name="Дата отъезда" Type="date" Nullable="false" />
+          <Property Name="Наличие детей" Type="bit" Nullable="false" />
+          <Property Name="Наличие мед. страховки" Type="bit" Nullable="false" />
+          <Property Name="Количество человек" Type="int" Nullable="false" />
+          <Property Name="Цена" Type="money" />
+          <Property Name="Итоговая цена" Type="money" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Туры">
+          <Key>
+            <PropertyRef Name="ID_Тура" />
+          </Key>
+          <Property Name="ID_Тура" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Вид транспорта" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Категория жилья на ночь" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Вид питания" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Цена тура в сутки" Type="money" Nullable="false" />
+          <Property Name="Logo" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "Travel_agency.dbo.Туры_для_триггера" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Туры_для_триггера">
+          <Key>
+            <PropertyRef Name="ID_Тура" />
+            <PropertyRef Name="Название" />
+            <PropertyRef Name="Вид транспорта" />
+            <PropertyRef Name="Категория жилья на ночь" />
+            <PropertyRef Name="Вид питания" />
+            <PropertyRef Name="Цена тура в сутки" />
+          </Key>
+          <Property Name="ID_Тура" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Вид транспорта" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Категория жилья на ночь" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Вид питания" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Цена тура в сутки" Type="money" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Виды жилья_Пансионаты">
+          <End Role="Пансионаты" Type="Self.Пансионаты" Multiplicity="1" />
+          <End Role="Виды жилья" Type="Self.Виды жилья" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пансионаты">
+              <PropertyRef Name="ID_Пансионата" />
+            </Principal>
+            <Dependent Role="Виды жилья">
+              <PropertyRef Name="ID_Пансионата" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Путевки_Виды жилья">
+          <End Role="Виды жилья" Type="Self.Виды жилья" Multiplicity="0..1" />
+          <End Role="Путевки" Type="Self.Путевки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Виды жилья">
+              <PropertyRef Name="ID_Вид жилья" />
+            </Principal>
+            <Dependent Role="Путевки">
+              <PropertyRef Name="ID_Вид жилья" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Путевки_Клиенты">
+          <End Role="Клиенты" Type="Self.Клиенты" Multiplicity="1" />
+          <End Role="Путевки" Type="Self.Путевки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Клиенты">
+              <PropertyRef Name="ID_Клиента" />
+            </Principal>
+            <Dependent Role="Путевки">
+              <PropertyRef Name="ID_Клиента" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Путевки_Пансионаты">
+          <End Role="Пансионаты" Type="Self.Пансионаты" Multiplicity="0..1" />
+          <End Role="Путевки" Type="Self.Путевки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пансионаты">
+              <PropertyRef Name="ID_Пансионата" />
+            </Principal>
+            <Dependent Role="Путевки">
+              <PropertyRef Name="ID_Пансионата" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Путевки_Туры">
+          <End Role="Туры" Type="Self.Туры" Multiplicity="0..1" />
+          <End Role="Путевки" Type="Self.Путевки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Туры">
+              <PropertyRef Name="ID_Тура" />
+            </Principal>
+            <Dependent Role="Путевки">
+              <PropertyRef Name="ID_Тура" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище Travel_agencyModelContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Виды жилья" EntityType="Self.Виды жилья" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Клиенты" EntityType="Self.Клиенты" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Пансионаты" EntityType="Self.Пансионаты" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Путевки" EntityType="Self.Путевки" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Туры" EntityType="Self.Туры" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Туры_для_триггера" EntityType="Self.Туры_для_триггера" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Туры_для_триггера].[ID_Тура] AS [ID_Тура], 
+    [Туры_для_триггера].[Название] AS [Название], 
+    [Туры_для_триггера].[Вид транспорта] AS [Вид транспорта], 
+    [Туры_для_триггера].[Категория жилья на ночь] AS [Категория жилья на ночь], 
+    [Туры_для_триггера].[Вид питания] AS [Вид питания], 
+    [Туры_для_триггера].[Цена тура в сутки] AS [Цена тура в сутки]
+    FROM [dbo].[Туры_для_триггера] AS [Туры_для_триггера]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Виды жилья_Пансионаты" Association="Self.FK_Виды жилья_Пансионаты">
+            <End Role="Пансионаты" EntitySet="Пансионаты" />
+            <End Role="Виды жилья" EntitySet="Виды жилья" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Путевки_Виды жилья" Association="Self.FK_Путевки_Виды жилья">
+            <End Role="Виды жилья" EntitySet="Виды жилья" />
+            <End Role="Путевки" EntitySet="Путевки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Путевки_Клиенты" Association="Self.FK_Путевки_Клиенты">
+            <End Role="Клиенты" EntitySet="Клиенты" />
+            <End Role="Путевки" EntitySet="Путевки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Путевки_Пансионаты" Association="Self.FK_Путевки_Пансионаты">
+            <End Role="Пансионаты" EntitySet="Пансионаты" />
+            <End Role="Путевки" EntitySet="Путевки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Путевки_Туры" Association="Self.FK_Путевки_Туры">
+            <End Role="Туры" EntitySet="Туры" />
+            <End Role="Путевки" EntitySet="Путевки" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Travel_agencyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Виды_жилья">
+          <Key>
+            <PropertyRef Name="ID_Вид_жилья" />
+          </Key>
+          <Property Name="ID_Вид_жилья" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ID_Пансионата" Type="Int32" Nullable="false" />
+          <Property Name="Категория_жилья" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Описание_условий_проживаний" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Цена_за_номер_в_сутки" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Пансионаты" Relationship="Self.FK_Виды_жилья_Пансионаты" FromRole="Виды_жилья" ToRole="Пансионаты" />
+          <NavigationProperty Name="Путевки" Relationship="Self.FK_Путевки_Виды_жилья" FromRole="Виды_жилья" ToRole="Путевки" />
+        </EntityType>
+        <EntityType Name="Клиенты">
+          <Key>
+            <PropertyRef Name="ID_Клиента" />
+          </Key>
+          <Property Name="ID_Клиента" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Паспортные_данные" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Фамилия" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Имя" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Отчество" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Дата_рождения" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Адрес" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Город" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Телефон" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Фото" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Путевки" Relationship="Self.FK_Путевки_Клиенты" FromRole="Клиенты" ToRole="Путевки" />
+        </EntityType>
+        <EntityType Name="Пансионаты">
+          <Key>
+            <PropertyRef Name="ID_Пансионата" />
+          </Key>
+          <Property Name="ID_Пансионата" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Адрес" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Город" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Страна" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Телефон" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Описание_территории" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Количество_комнат" Type="Int32" Nullable="false" />
+          <Property Name="Наличие_бассейна" Type="Boolean" Nullable="false" />
+          <Property Name="Наличие_мед__услуг" Type="Boolean" Nullable="false" />
+          <Property Name="Наличие_спа_салона" Type="Boolean" Nullable="false" />
+          <Property Name="Уровень_пансионата" Type="Int32" Nullable="false" />
+          <Property Name="Расстояние_до_моря" Type="Int32" />
+          <Property Name="Logo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Виды_жилья" Relationship="Self.FK_Виды_жилья_Пансионаты" FromRole="Пансионаты" ToRole="Виды_жилья" />
+          <NavigationProperty Name="Путевки" Relationship="Self.FK_Путевки_Пансионаты" FromRole="Пансионаты" ToRole="Путевки" />
+        </EntityType>
+        <EntityType Name="Путевки">
+          <Key>
+            <PropertyRef Name="ID_Путевки" />
+          </Key>
+          <Property Name="ID_Путевки" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Клиента" Type="Int32" Nullable="false" />
+          <Property Name="ID_Пансионата" Type="Int32" />
+          <Property Name="ID_Вид_жилья" Type="Int32" />
+          <Property Name="ID_Тура" Type="Int32" />
+          <Property Name="Дата_заезда" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Дата_отъезда" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Наличие_детей" Type="Boolean" Nullable="false" />
+          <Property Name="Наличие_мед__страховки" Type="Boolean" Nullable="false" />
+          <Property Name="Количество_человек" Type="Int32" Nullable="false" />
+          <Property Name="Цена" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Итоговая_цена" Type="Decimal" Precision="19" Scale="4" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Виды_жилья" Relationship="Self.FK_Путевки_Виды_жилья" FromRole="Путевки" ToRole="Виды_жилья" />
+          <NavigationProperty Name="Клиенты" Relationship="Self.FK_Путевки_Клиенты" FromRole="Путевки" ToRole="Клиенты" />
+          <NavigationProperty Name="Пансионаты" Relationship="Self.FK_Путевки_Пансионаты" FromRole="Путевки" ToRole="Пансионаты" />
+          <NavigationProperty Name="Туры" Relationship="Self.FK_Путевки_Туры" FromRole="Путевки" ToRole="Туры" />
+        </EntityType>
+        <EntityType Name="Туры">
+          <Key>
+            <PropertyRef Name="ID_Тура" />
+          </Key>
+          <Property Name="ID_Тура" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Вид_транспорта" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Категория_жилья_на_ночь" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Вид_питания" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Цена_тура_в_сутки" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Logo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Путевки" Relationship="Self.FK_Путевки_Туры" FromRole="Туры" ToRole="Путевки" />
+        </EntityType>
+        <EntityType Name="Туры_для_триггера">
+          <Key>
+            <PropertyRef Name="ID_Тура" />
+            <PropertyRef Name="Название" />
+            <PropertyRef Name="Вид_транспорта" />
+            <PropertyRef Name="Категория_жилья_на_ночь" />
+            <PropertyRef Name="Вид_питания" />
+            <PropertyRef Name="Цена_тура_в_сутки" />
+          </Key>
+          <Property Name="ID_Тура" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Вид_транспорта" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Категория_жилья_на_ночь" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Вид_питания" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Цена_тура_в_сутки" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Виды_жилья_Пансионаты">
+          <End Role="Пансионаты" Type="Self.Пансионаты" Multiplicity="1" />
+          <End Role="Виды_жилья" Type="Self.Виды_жилья" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пансионаты">
+              <PropertyRef Name="ID_Пансионата" />
+            </Principal>
+            <Dependent Role="Виды_жилья">
+              <PropertyRef Name="ID_Пансионата" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Путевки_Виды_жилья">
+          <End Role="Виды_жилья" Type="Self.Виды_жилья" Multiplicity="0..1" />
+          <End Role="Путевки" Type="Self.Путевки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Виды_жилья">
+              <PropertyRef Name="ID_Вид_жилья" />
+            </Principal>
+            <Dependent Role="Путевки">
+              <PropertyRef Name="ID_Вид_жилья" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Путевки_Клиенты">
+          <End Role="Клиенты" Type="Self.Клиенты" Multiplicity="1" />
+          <End Role="Путевки" Type="Self.Путевки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Клиенты">
+              <PropertyRef Name="ID_Клиента" />
+            </Principal>
+            <Dependent Role="Путевки">
+              <PropertyRef Name="ID_Клиента" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Путевки_Пансионаты">
+          <End Role="Пансионаты" Type="Self.Пансионаты" Multiplicity="0..1" />
+          <End Role="Путевки" Type="Self.Путевки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пансионаты">
+              <PropertyRef Name="ID_Пансионата" />
+            </Principal>
+            <Dependent Role="Путевки">
+              <PropertyRef Name="ID_Пансионата" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Путевки_Туры">
+          <End Role="Туры" Type="Self.Туры" Multiplicity="0..1" />
+          <End Role="Путевки" Type="Self.Путевки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Туры">
+              <PropertyRef Name="ID_Тура" />
+            </Principal>
+            <Dependent Role="Путевки">
+              <PropertyRef Name="ID_Тура" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Travel_agencyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Виды_жилья" EntityType="Self.Виды_жилья" />
+          <EntitySet Name="Клиенты" EntityType="Self.Клиенты" />
+          <EntitySet Name="Пансионаты" EntityType="Self.Пансионаты" />
+          <EntitySet Name="Путевки" EntityType="Self.Путевки" />
+          <EntitySet Name="Туры" EntityType="Self.Туры" />
+          <EntitySet Name="Туры_для_триггера" EntityType="Self.Туры_для_триггера" />
+          <AssociationSet Name="FK_Виды_жилья_Пансионаты" Association="Self.FK_Виды_жилья_Пансионаты">
+            <End Role="Пансионаты" EntitySet="Пансионаты" />
+            <End Role="Виды_жилья" EntitySet="Виды_жилья" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Путевки_Виды_жилья" Association="Self.FK_Путевки_Виды_жилья">
+            <End Role="Виды_жилья" EntitySet="Виды_жилья" />
+            <End Role="Путевки" EntitySet="Путевки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Путевки_Клиенты" Association="Self.FK_Путевки_Клиенты">
+            <End Role="Клиенты" EntitySet="Клиенты" />
+            <End Role="Путевки" EntitySet="Путевки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Путевки_Пансионаты" Association="Self.FK_Путевки_Пансионаты">
+            <End Role="Пансионаты" EntitySet="Пансионаты" />
+            <End Role="Путевки" EntitySet="Путевки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Путевки_Туры" Association="Self.FK_Путевки_Туры">
+            <End Role="Туры" EntitySet="Туры" />
+            <End Role="Путевки" EntitySet="Путевки" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Travel_agencyModelContainer" CdmEntityContainer="Travel_agencyEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Travel_agencyModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Виды_жилья">
+            <EntityTypeMapping TypeName="Travel_agencyModel.Виды_жилья">
+              <MappingFragment StoreEntitySet="Виды жилья">
+                <ScalarProperty Name="ID_Вид_жилья" ColumnName="ID_Вид жилья" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="ID_Пансионата" ColumnName="ID_Пансионата" />
+                <ScalarProperty Name="Категория_жилья" ColumnName="Категория жилья" />
+                <ScalarProperty Name="Описание_условий_проживаний" ColumnName="Описание условий проживаний" />
+                <ScalarProperty Name="Цена_за_номер_в_сутки" ColumnName="Цена за номер в сутки" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Клиенты">
+            <EntityTypeMapping TypeName="Travel_agencyModel.Клиенты">
+              <MappingFragment StoreEntitySet="Клиенты">
+                <ScalarProperty Name="ID_Клиента" ColumnName="ID_Клиента" />
+                <ScalarProperty Name="Паспортные_данные" ColumnName="Паспортные данные" />
+                <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="Отчество" ColumnName="Отчество" />
+                <ScalarProperty Name="Дата_рождения" ColumnName="Дата рождения" />
+                <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+                <ScalarProperty Name="Город" ColumnName="Город" />
+                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+                <ScalarProperty Name="Фото" ColumnName="Фото" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Пансионаты">
+            <EntityTypeMapping TypeName="Travel_agencyModel.Пансионаты">
+              <MappingFragment StoreEntitySet="Пансионаты">
+                <ScalarProperty Name="ID_Пансионата" ColumnName="ID_Пансионата" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+                <ScalarProperty Name="Город" ColumnName="Город" />
+                <ScalarProperty Name="Страна" ColumnName="Страна" />
+                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+                <ScalarProperty Name="Описание_территории" ColumnName="Описание территории" />
+                <ScalarProperty Name="Количество_комнат" ColumnName="Количество комнат" />
+                <ScalarProperty Name="Наличие_бассейна" ColumnName="Наличие бассейна" />
+                <ScalarProperty Name="Наличие_мед__услуг" ColumnName="Наличие мед. услуг" />
+                <ScalarProperty Name="Наличие_спа_салона" ColumnName="Наличие спа-салона" />
+                <ScalarProperty Name="Уровень_пансионата" ColumnName="Уровень пансионата" />
+                <ScalarProperty Name="Расстояние_до_моря" ColumnName="Расстояние до моря" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Путевки">
+            <EntityTypeMapping TypeName="Travel_agencyModel.Путевки">
+              <MappingFragment StoreEntitySet="Путевки">
+                <ScalarProperty Name="ID_Путевки" ColumnName="ID_Путевки" />
+                <ScalarProperty Name="ID_Клиента" ColumnName="ID_Клиента" />
+                <ScalarProperty Name="ID_Пансионата" ColumnName="ID_Пансионата" />
+                <ScalarProperty Name="ID_Вид_жилья" ColumnName="ID_Вид жилья" />
+                <ScalarProperty Name="ID_Тура" ColumnName="ID_Тура" />
+                <ScalarProperty Name="Дата_заезда" ColumnName="Дата заезда" />
+                <ScalarProperty Name="Дата_отъезда" ColumnName="Дата отъезда" />
+                <ScalarProperty Name="Наличие_детей" ColumnName="Наличие детей" />
+                <ScalarProperty Name="Наличие_мед__страховки" ColumnName="Наличие мед. страховки" />
+                <ScalarProperty Name="Количество_человек" ColumnName="Количество человек" />
+                <ScalarProperty Name="Цена" ColumnName="Цена" />
+                <ScalarProperty Name="Итоговая_цена" ColumnName="Итоговая цена" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Туры">
+            <EntityTypeMapping TypeName="Travel_agencyModel.Туры">
+              <MappingFragment StoreEntitySet="Туры">
+                <ScalarProperty Name="ID_Тура" ColumnName="ID_Тура" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="Вид_транспорта" ColumnName="Вид транспорта" />
+                <ScalarProperty Name="Категория_жилья_на_ночь" ColumnName="Категория жилья на ночь" />
+                <ScalarProperty Name="Вид_питания" ColumnName="Вид питания" />
+                <ScalarProperty Name="Цена_тура_в_сутки" ColumnName="Цена тура в сутки" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Туры_для_триггера">
+            <EntityTypeMapping TypeName="Travel_agencyModel.Туры_для_триггера">
+              <MappingFragment StoreEntitySet="Туры_для_триггера">
+                <ScalarProperty Name="ID_Тура" ColumnName="ID_Тура" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="Вид_транспорта" ColumnName="Вид транспорта" />
+                <ScalarProperty Name="Категория_жилья_на_ночь" ColumnName="Категория жилья на ночь" />
+                <ScalarProperty Name="Вид_питания" ColumnName="Вид питания" />
+                <ScalarProperty Name="Цена_тура_в_сутки" ColumnName="Цена тура в сутки" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
