@@ -119,7 +119,7 @@
                             <TextBlock Text="{Binding Категория_жилья_на_ночь}"/>
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
-                            <TextBlock Text="Вид питания: "/>
+                            <TextBlock Text="Вид транспорта: "/>
                             <TextBlock Text="{Binding Вид_транспорта}"/>
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
