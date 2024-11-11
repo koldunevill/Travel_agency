@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations.Model;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -32,8 +33,12 @@ namespace Travel_agency
             ComboBoxHousingType.ItemsSource = Travel_agencyEntities.GetContext().Виды_жилья.Select(f => f.Название).ToList();
             ComboBoxTour.ItemsSource = Travel_agencyEntities.GetContext().Туры.Select(f => f.ID_Тура + " " + f.Название + " " + f.Цена_тура_в_сутки).ToList();
 
+            if (currentPackage.ID_Вид_жилья == null)
+            {
+                ComboBoxHousingType.Visibility = Visibility.Collapsed;
+            }
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(250);  
+            timer.Interval = TimeSpan.FromMilliseconds(10);  
             timer.Tick += (s, e) =>
             {
                 if (currentPackage.ID_Путевки == 0)
@@ -91,44 +96,47 @@ namespace Travel_agency
                 }
             }
 
+            var errorMessages = new StringBuilder();
+
             if (ComboBoxPansionat.SelectedIndex != -1)
             {
                 currentPackage.ID_Пансионата = ComboBoxPansionat.SelectedIndex + 1;
                 currentPackage.ID_Вид_жилья = ComboBoxHousingType.SelectedIndex + 1;
-                currentPackage.ID_Тура = null; 
+                currentPackage.ID_Тура = null;
             }
             else if (ComboBoxTour.SelectedIndex != -1)
             {
                 currentPackage.ID_Тура = ComboBoxTour.SelectedIndex + 1;
-                currentPackage.ID_Пансионата = null; 
+                currentPackage.ID_Пансионата = null;
                 currentPackage.ID_Вид_жилья = null;
             }
             else
             {
-                MessageBox.Show("Пожалуйста, выберите пансионат или тур.");
-                return;
+                errorMessages.AppendLine("Пожалуйста, выберите пансионат или тур.");
             }
+
             if (!ArrivalDatePicker.SelectedDate.HasValue || !DepartureDatePicker.SelectedDate.HasValue)
             {
-                MessageBox.Show("Пожалуйста, выберите даты заезда и отъезда.");
-                return;
+                errorMessages.AppendLine("Пожалуйста, выберите даты заезда и отъезда.");
             }
-            if (ArrivalDatePicker.SelectedDate.Value >= DepartureDatePicker.SelectedDate.Value)
+            else if (ArrivalDatePicker.SelectedDate.Value >= DepartureDatePicker.SelectedDate.Value)
             {
-                MessageBox.Show("Дата заезда должна быть раньше даты отъезда.");
-                return;
+                errorMessages.AppendLine("Дата заезда должна быть раньше даты отъезда.");
             }
 
             if (string.IsNullOrEmpty(PeopleCountTextBox.Text) || !int.TryParse(PeopleCountTextBox.Text, out int peopleCount) ||
                 peopleCount < 1 || peopleCount > 4)
             {
-                MessageBox.Show("Пожалуйста, укажите количество человек от 1 до 4.");
-                return;
+                errorMessages.AppendLine("Пожалуйста, укажите количество человек от 1 до 4.");
             }
 
             if (string.IsNullOrEmpty(PriceTextBox.Text) || !decimal.TryParse(PriceTextBox.Text, out decimal price))
             {
-                MessageBox.Show("Пожалуйста, укажите корректную цену.");
+                errorMessages.AppendLine("Пожалуйста, укажите корректную цену.");
+            }
+            if (errorMessages.Length > 0)
+            {
+                MessageBox.Show(errorMessages.ToString());
                 return;
             }
 
@@ -233,8 +241,25 @@ namespace Travel_agency
         {
             if (ComboBoxPansionat.SelectedIndex != -1)
             {
+                int selectedPansionatId = ComboBoxPansionat.SelectedIndex + 1; 
+
+                var housingTypes = Travel_agencyEntities.GetContext()
+                                   .Виды_жилья
+                                   .Where(h => h.ID_Пансионата == selectedPansionatId)
+                                   .Select(h => h.Название)
+                                   .ToList();
+
+                ComboBoxHousingType.ItemsSource = housingTypes;
+
+                ComboBoxHousingType.Visibility = housingTypes.Any() ? Visibility.Visible : Visibility.Collapsed;
+
                 ComboBoxTour.Visibility = Visibility.Collapsed;
             }
+            else
+            {
+                ComboBoxHousingType.Visibility = Visibility.Collapsed;
+            }
+
         }
 
         private void ComboBoxHousingType_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -72,7 +72,7 @@ namespace Travel_agency
             {
                 currentboardinghouses = currentboardinghouses.Where(f => f.Наличие_спа_салона.Equals(true)).ToList();
             }
-            else if (TruSpa.IsChecked == true)
+            else if (FalSpa.IsChecked == true)
             {
                 currentboardinghouses = currentboardinghouses.Where(f => f.Наличие_спа_салона.Equals(false)).ToList();
             }

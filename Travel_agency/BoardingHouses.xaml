@@ -57,7 +57,7 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Margin="10 0 0 0">
-                        <TextBlock Text="Наличие мед. салона:" FontSize="15"></TextBlock>
+                        <TextBlock Text="Наличие мед. услуг:" FontSize="15"></TextBlock>
                     <RadioButton Name="TruMed" Checked="TruMed_Checked" Content="Да" GroupName="НаличиеМедУслуг" FontSize="15"></RadioButton>
                         <RadioButton Name="FalMed" Checked="FalMed_Checked"  Content="Нет" GroupName="НаличиеМедУслуг" FontSize="15"></RadioButton>
                 </StackPanel>

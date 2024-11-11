@@ -55,7 +55,7 @@
                 </ComboBox>
             </StackPanel>
             <StackPanel Orientation="Vertical" Margin="10 0 0 0">
-                <TextBlock Text="Вид жилья"></TextBlock>
+                <TextBlock Text="Вид питания"></TextBlock>
                 <ComboBox Name="SelectFoodCB" SelectionChanged="SelectFoodCB_SelectionChanged" >
                     <TextBlock>Все</TextBlock>
                     <TextBlock>Одноразовое</TextBlock>
@@ -126,10 +126,6 @@
                             <TextBlock Text="Вид питания: "/>
                             <TextBlock Text="{Binding Вид_питания}"/>
                         </StackPanel>
-
-
-
-
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

@@ -129,7 +129,7 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="0">
-                            <TextBlock Text="Даты отдыха" Grid.Row="1" Grid.Column="1"/>
+                            <TextBlock Text="Даты отдыха: " Grid.Row="1" Grid.Column="1"/>
                             <TextBlock Text="{Binding Дата_заезда, StringFormat=\{0:dd.MM.yyyy\}}"/>
                             <TextBlock Text=" - "/>
                             <TextBlock Text="{Binding Дата_отъезда, StringFormat=\{0:dd.MM.yyyy\}}"/>
