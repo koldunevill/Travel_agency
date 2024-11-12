@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Travel_agency"
         mc:Ignorable="d"
         Title="TravelAgency" Height="600" Width="1000" FontFamily="Cambria" FontSize="20" Icon="res/Travel.png"
+        WindowStartupLocation="CenterScreen"
         MinHeight="500" MinWidth="900">
     <Grid>
         <Grid.RowDefinitions>

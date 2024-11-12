@@ -64,6 +64,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddClientWindow.xaml.cs">
+      <DependentUpon>AddClientWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AddEditTravelPackagePage.xaml.cs">
       <DependentUpon>AddEditTravelPackagePage.xaml</DependentUpon>
     </Compile>
@@ -109,6 +112,10 @@
     <Compile Include="Туры_для_триггера.cs">
       <DependentUpon>Travel_agency.tt</DependentUpon>
     </Compile>
+    <Page Include="AddClientWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AddEditTravelPackagePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -196,6 +203,18 @@
     <Resource Include="Client\Petr.jpg" />
     <Resource Include="res\Ivan.jpg" />
     <Resource Include="res\Petr.jpg" />
+    <Resource Include="Client\Egor.jpg" />
+    <Resource Include="Client\Артур.jpg" />
+    <Resource Include="Client\Egor2.jpg" />
+    <Resource Include="Client\азамат.jpg" />
+    <Resource Include="Client\Азаматия.jpg" />
+    <Resource Include="Client\Батя.jpg" />
+    <Resource Include="Client\Булат.jpg" />
+    <Resource Include="Client\Данис.jpg" />
+    <Resource Include="Client\Егория.jpg" />
+    <Resource Include="Client\Искин.jpg" />
+    <Resource Include="Client\Марс.jpg" />
+    <Resource Include="Client\Эльза.jpg" />
     <Content Include="Travel_agency.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Travel_agency.edmx</DependentUpon>

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations.Model;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,24 +22,24 @@ namespace Travel_agency
 
         public AddEditTravelPackagePage(Путевки package = null)
         {
-            var clients = new List<string>
-            {
-                "-"
-            };
-            clients.AddRange(Travel_agencyEntities.GetContext().Клиенты.Select(f => f.Фамилия + " " + f.Имя + " " + f.Отчество).ToList());
             InitializeComponent();
-            SelectCLient.ItemsSource = clients;
+            UpdateClientList();
             currentPackage = package ?? new Путевки();
             ComboBoxPansionat.ItemsSource = Travel_agencyEntities.GetContext().Пансионаты.Select(f => f.Название).ToList();
             ComboBoxHousingType.ItemsSource = Travel_agencyEntities.GetContext().Виды_жилья.Select(f => f.Название).ToList();
-            ComboBoxTour.ItemsSource = Travel_agencyEntities.GetContext().Туры.Select(f => f.ID_Тура + " " + f.Название + " " + f.Цена_тура_в_сутки).ToList();
+            ComboBoxTour.ItemsSource = Travel_agencyEntities.GetContext().Туры.Select(f => f.Название).ToList();
+            var clients = Travel_agencyEntities.GetContext().Клиенты.Select(c => new { ФИО = c.Фамилия + " " + c.Имя + " " + c.Отчество, Фото = c.Фото }).ToList();
 
+            var clientsWithPhotoPath = clients.Select(c => new { ФИО = c.ФИО, ФотоПуть = !string.IsNullOrEmpty(c.Фото) ? (System.IO.Path.IsPathRooted(c.Фото) ? c.Фото : System.IO.Path.Combine("", c.Фото)) : string.Empty }).ToList();
+
+            clientsWithPhotoPath.Insert(0, new { ФИО = "-", ФотоПуть = string.Empty });
+            SelectCLient.ItemsSource = clientsWithPhotoPath;
             if (currentPackage.ID_Вид_жилья == null)
             {
                 ComboBoxHousingType.Visibility = Visibility.Collapsed;
             }
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(10);  
+            timer.Interval = TimeSpan.FromMilliseconds(10);
             timer.Tick += (s, e) =>
             {
                 if (currentPackage.ID_Путевки == 0)
@@ -71,31 +72,13 @@ namespace Travel_agency
 
 
                 }
-                timer.Stop();  
+                timer.Stop();
             };
-            timer.Start();  
+            timer.Start();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectCLient.SelectedIndex == 0)
-            {
-                if (string.IsNullOrEmpty(Familia.Text) || string.IsNullOrEmpty(Name.Text) ||
-                    !DateBird.SelectedDate.HasValue || string.IsNullOrEmpty(City.Text) ||
-                    string.IsNullOrEmpty(Adres.Text) || string.IsNullOrEmpty(Phone.Text) ||
-                    string.IsNullOrEmpty(Pasport.Text))
-                {
-                    MessageBox.Show("Пожалуйста, заполните все данные для клиента.");
-                    return;
-                }
-
-                if (Pasport.Text.Length != 10)
-                {
-                    MessageBox.Show("Паспортные данные должны содержать ровно 10 символов.");
-                    return;
-                }
-            }
-
             var errorMessages = new StringBuilder();
 
             if (ComboBoxPansionat.SelectedIndex != -1)
@@ -144,43 +127,21 @@ namespace Travel_agency
             {
                 currentPackage.ID_Пансионата = ComboBoxPansionat.SelectedIndex + 1;
                 currentPackage.ID_Вид_жилья = ComboBoxHousingType.SelectedIndex + 1;
-                currentPackage.ID_Тура = null; 
+                currentPackage.ID_Тура = null;
             }
             else if (ComboBoxTour.SelectedIndex != -1)
             {
                 currentPackage.ID_Тура = ComboBoxTour.SelectedIndex + 1;
-                currentPackage.ID_Пансионата = null; 
+                currentPackage.ID_Пансионата = null;
                 currentPackage.ID_Вид_жилья = null;
             }
-
+            currentPackage.ID_Клиента = SelectCLient.SelectedIndex;
             currentPackage.Дата_заезда = ArrivalDatePicker.SelectedDate.Value;
             currentPackage.Дата_отъезда = DepartureDatePicker.SelectedDate.Value;
             currentPackage.Количество_человек = int.Parse(PeopleCountTextBox.Text);
             currentPackage.Цена = decimal.Parse(PriceTextBox.Text);
             currentPackage.Наличие_детей = ChildrenCheckBox.IsChecked ?? false;
             currentPackage.Наличие_мед__страховки = InsuranceCheckBox.IsChecked ?? false;
-
-            if (SelectCLient.SelectedIndex == 0)
-            {
-                Клиенты newClient = new Клиенты
-                {
-                    Паспортные_данные = Pasport.Text,
-                    Фамилия = Familia.Text,
-                    Имя = Name.Text,
-                    Отчество = Patronomyc.Text,
-                    Дата_рождения = DateBird.SelectedDate.Value,
-                    Город = City.Text,
-                    Адрес = Adres.Text,
-                    Телефон = Phone.Text,
-                    Фото = null 
-                };
-
-                
-                Travel_agencyEntities.GetContext().Клиенты.Add(newClient);
-                Travel_agencyEntities.GetContext().SaveChanges();
-
-                currentPackage.ID_Клиента = newClient.ID_Клиента;
-            }
 
             if (currentPackage.ID_Путевки == 0)
             {
@@ -198,37 +159,11 @@ namespace Travel_agency
         {
             if (SelectCLient.SelectedIndex == 0)
             {
-               
-                Familia.Clear();
-                Name.Clear();
-                Patronomyc.Clear();
-                DateBird.SelectedDate = null;
-                City.Clear();
-                Adres.Clear();
-                Phone.Clear();
-                Pasport.Clear();
+                AddClient.Content = "Добавить";
             }
-            else if (SelectCLient.SelectedIndex > 0) 
+            else
             {
-               
-                var selectedClientFullName = SelectCLient.SelectedItem.ToString();
-                var selectedClient = Travel_agencyEntities.GetContext().Клиенты
-                    .FirstOrDefault(c => c.Фамилия + " " + c.Имя + " " + c.Отчество == selectedClientFullName);
-
-                if (selectedClient != null)
-                {
-                    
-                    Familia.Text = selectedClient.Фамилия;
-                    Name.Text = selectedClient.Имя;
-                    Patronomyc.Text = selectedClient.Отчество;
-                    DateBird.SelectedDate = selectedClient.Дата_рождения;
-                    City.Text = selectedClient.Город;
-                    Adres.Text = selectedClient.Адрес;
-                    Phone.Text = selectedClient.Телефон;
-                    Pasport.Text = selectedClient.Паспортные_данные;
-
-                currentPackage.ID_Клиента = selectedClient.ID_Клиента;
-                }
+                AddClient.Content = "Редактировать";
             }
         }
 
@@ -241,7 +176,7 @@ namespace Travel_agency
         {
             if (ComboBoxPansionat.SelectedIndex != -1)
             {
-                int selectedPansionatId = ComboBoxPansionat.SelectedIndex + 1; 
+                int selectedPansionatId = ComboBoxPansionat.SelectedIndex + 1;
 
                 var housingTypes = Travel_agencyEntities.GetContext()
                                    .Виды_жилья
@@ -277,6 +212,34 @@ namespace Travel_agency
                 ComboBoxHousingType.Visibility = Visibility.Collapsed;
                 ComboBoxPansionat.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void AddClient_Click(object sender, RoutedEventArgs e)
+        {
+            AddClientWindow addclient;
+            if (SelectCLient.SelectedIndex != 0)
+            {
+                Клиенты client = Travel_agencyEntities.GetContext().Клиенты.FirstOrDefault(f => f.ID_Клиента == SelectCLient.SelectedIndex);
+                addclient = new AddClientWindow(client);
+                addclient.Show();
+            }
+            else
+            {
+                addclient = new AddClientWindow(null);
+                addclient.Show();
+            }
+            addclient.Closed += (s, args) => UpdateClientList();
+            addclient.Show();
+        }
+        private void UpdateClientList()
+        {
+            var clients = Travel_agencyEntities.GetContext().Клиенты.Select(c => new{ФИО = c.Фамилия + " " + c.Имя + " " + c.Отчество,Фото = c.Фото}).ToList();
+
+            var clientsWithPhotoPath = clients.Select(c => new{ФИО = c.ФИО, ФотоПуть = !string.IsNullOrEmpty(c.Фото)? (System.IO.Path.IsPathRooted(c.Фото)? c.Фото : System.IO.Path.Combine("", c.Фото))  : string.Empty} ).ToList();
+
+            clientsWithPhotoPath.Insert(0, new { ФИО = "-", ФотоПуть = string.Empty });
+
+            SelectCLient.ItemsSource = clientsWithPhotoPath;
         }
     }
 }
