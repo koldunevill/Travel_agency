@@ -106,17 +106,25 @@ namespace Travel_agency
             {
                 errorMessages.AppendLine("Дата заезда должна быть раньше даты отъезда.");
             }
-
-            if (string.IsNullOrEmpty(PeopleCountTextBox.Text) || !int.TryParse(PeopleCountTextBox.Text, out int peopleCount) ||
-                peopleCount < 1 || peopleCount > 4)
+            if (string.IsNullOrEmpty(PeopleCountTextBox.Text) || !int.TryParse(PeopleCountTextBox.Text, out int peopleCount) || peopleCount < 1 || peopleCount > 4)
             {
                 errorMessages.AppendLine("Пожалуйста, укажите количество человек от 1 до 4.");
             }
-
+            else if (!int.TryParse(PeopleCountTextBox.Text, out int peopleCount2) || peopleCount2 < 2 || peopleCount2 > 4 && ChildrenCheckBox.IsChecked == true)
+            {
+                errorMessages.AppendLine("Пожалуйста, укажите количество человек от 2 до 4.");
+            }
+            if (SelectCLient.SelectedIndex == 0)
+            {
+                errorMessages.AppendLine("Пожалуйста, выберите или добавьте клиента.");
+            }
             if (string.IsNullOrEmpty(PriceTextBox.Text) || !decimal.TryParse(PriceTextBox.Text, out decimal price))
             {
                 errorMessages.AppendLine("Пожалуйста, укажите корректную цену.");
             }
+
+
+
             if (errorMessages.Length > 0)
             {
                 MessageBox.Show(errorMessages.ToString());
