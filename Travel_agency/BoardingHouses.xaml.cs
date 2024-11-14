@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace Travel_agency
 {
     /// <summary>
@@ -163,17 +164,20 @@ namespace Travel_agency
                 return;
             }
 
+
             bool hasRelatedTours = Travel_agencyEntities.GetContext().Путевки
                 .Any(t => t.ID_Пансионата == selectedBoardingHouse.ID_Пансионата);
 
             bool hasRelatedHousingTypes = Travel_agencyEntities.GetContext().Виды_жилья
                 .Any(h => h.ID_Пансионата == selectedBoardingHouse.ID_Пансионата);
 
+
             if (hasRelatedTours || hasRelatedHousingTypes)
             {
                 MessageBox.Show("Невозможно удалить пансионат, так как он связан с путёвками или видами жилья.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
 
             if (MessageBox.Show("Вы точно хотите удалить этот пансионат?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
@@ -191,6 +195,7 @@ namespace Travel_agency
                 }
             }
         }
+
 
         private void GOTravelPackages_Click(object sender, RoutedEventArgs e)
         {

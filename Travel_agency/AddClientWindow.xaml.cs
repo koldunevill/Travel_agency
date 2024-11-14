@@ -43,6 +43,9 @@ namespace Travel_agency
             this.DataContext = client;
         }
 
+
+
+
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             StringBuilder errors = new StringBuilder();
@@ -76,6 +79,9 @@ namespace Travel_agency
                 errors.AppendLine("Номер телефона должен начинаться с 7, либо с 8.");
             }
 
+
+
+
             if (errors.Length > 0)
             {
                 MessageBox.Show(errors.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -86,6 +92,8 @@ namespace Travel_agency
                 MessageBox.Show(errors.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
+
 
             try
             {
@@ -140,6 +148,8 @@ namespace Travel_agency
             }
         }
 
+
+
         private void AddPhoto_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -148,7 +158,6 @@ namespace Travel_agency
                 string selectedFilePath = openFileDialog.FileName;
 
                 tempPhotoPath = selectedFilePath;
-
                 Фото.Source = new BitmapImage(new Uri(tempPhotoPath));
             }
         }

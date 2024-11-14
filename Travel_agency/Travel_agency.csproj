@@ -199,6 +199,7 @@
     <Resource Include="res\тур4.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Скрипт БД\sda.sql" />
     <Resource Include="Client\Ivan.jpg" />
     <Resource Include="Client\Petr.jpg" />
     <Resource Include="res\Ivan.jpg" />

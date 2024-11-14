@@ -65,13 +65,10 @@ namespace Travel_agency
             RecordTB.Text = $"Количество записей {newcountRecord} из {countRecords}";
             TravePackagesListView.ItemsSource = current;
         }
-
-
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             UpdateTravekPackage();
         }
-
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             var selectItem = TravePackagesListView.SelectedItem as Путевки;
@@ -98,42 +95,34 @@ namespace Travel_agency
                 catch { MessageBox.Show($"Оу", "", MessageBoxButton.OK, MessageBoxImage.Error); }
             }
         }
-        
         private void GOTours_Click(object sender, RoutedEventArgs e)
         {
             manager.MainFrame.Navigate(new ToursPage());
         }
-
         private void GoBoardingHouse_Click(object sender, RoutedEventArgs e)
         {
             manager.MainFrame.Navigate(new BoardingHouses());
         }
-
         private void ChildYES_Checked(object sender, RoutedEventArgs e)
         {
             UpdateTravekPackage();
         }
-
         private void ChildNO_Checked(object sender, RoutedEventArgs e)
         {
             UpdateTravekPackage();
         }
-
         private void MedYES_Checked(object sender, RoutedEventArgs e)
         {
             UpdateTravekPackage();
         }
-
         private void MedNO_Checked(object sender, RoutedEventArgs e)
         {
             UpdateTravekPackage();
         }
-
         private void add_Click(object sender, RoutedEventArgs e)
         {
             manager.MainFrame.Navigate(new AddEditTravelPackagePage(null));
         }
-
         private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
             var clients = new List<string>
@@ -148,7 +137,6 @@ namespace Travel_agency
             }
             UpdateTravekPackage();
         }
-
         private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (Visibility == Visibility.Visible)
