@@ -36,6 +36,7 @@ namespace Travel_agency
         public Nullable<int> Расстояние_до_моря { get; set; }
         public string Logo { get; set; }
 
+
         public string Наличие_мед__услугstring
         {
             get
@@ -69,8 +70,6 @@ namespace Travel_agency
                     return "Нет";
             }
         }
-
-
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Виды_жилья> Виды_жилья { get; set; }

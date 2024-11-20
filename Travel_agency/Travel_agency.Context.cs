@@ -15,7 +15,7 @@ namespace Travel_agency
     
     public partial class Travel_agencyEntities : DbContext
     {
-        public static Travel_agencyEntities _context {  get; set; }
+        public static Travel_agencyEntities _context { get; set; }
 
         public static Travel_agencyEntities GetContext()
         {

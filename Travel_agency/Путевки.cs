@@ -74,7 +74,6 @@ namespace Travel_agency
             }
         }
 
-
         public virtual Виды_жилья Виды_жилья { get; set; }
         public virtual Клиенты Клиенты { get; set; }
         public virtual Пансионаты Пансионаты { get; set; }

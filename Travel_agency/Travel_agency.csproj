@@ -199,6 +199,16 @@
     <Resource Include="res\тур4.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Travel_agency.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Travel_agency.edmx</DependentUpon>
+      <LastGenOutput>Travel_agency.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Travel_agency.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Travel_agency.edmx</DependentUpon>
+      <LastGenOutput>Travel_agency.cs</LastGenOutput>
+    </Content>
     <Content Include="Скрипт БД\sda.sql" />
     <Resource Include="Client\Ivan.jpg" />
     <Resource Include="Client\Petr.jpg" />
@@ -216,16 +226,6 @@
     <Resource Include="Client\Искин.jpg" />
     <Resource Include="Client\Марс.jpg" />
     <Resource Include="Client\Эльза.jpg" />
-    <Content Include="Travel_agency.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Travel_agency.edmx</DependentUpon>
-      <LastGenOutput>Travel_agency.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Travel_agency.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Travel_agency.edmx</DependentUpon>
-      <LastGenOutput>Travel_agency.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

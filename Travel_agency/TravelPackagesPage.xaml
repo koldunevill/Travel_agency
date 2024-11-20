@@ -89,7 +89,7 @@
                                     </Style.Triggers>
                                 </Style>
                             </StackPanel.Style>
-                            <TextBlock Text="Название тура: " />
+                            <TextBlock Text="Название пансионата: " />
                             <TextBlock Text="{Binding Пансионаты.Название}" FontWeight="Bold" />
                         </StackPanel>
 
